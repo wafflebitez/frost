@@ -6,7 +6,7 @@ class Config:
 
     def __init__(self):
         if not os.path.exists("config.json"):
-            self.prefix = 'f!'
+            self.prefix = '.'
             self.token = 'YOUR_TOKEN_HERE'
             self.status = 'Frost 2.1.2'
             self.owner_id = 0
