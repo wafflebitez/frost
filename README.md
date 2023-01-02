@@ -11,9 +11,9 @@ It's pretty barebones at the moment. Don't expect too much.
 
 - Server:
     - Configurable prefix that overrules the global: `.prefix {new_prefix}`
-    - Configurable moderation roles (controls access to specific commands): `.addmod {role} .removemod {role}`
+    - Configurable moderation roles (controls access to specific commands): `.addmod {role} | .removemod {role} | .listmods`
     - Custom Channels!
-        - Daily Message: `[NYI]`
+        - Daily Message: `.dailymessage {enable/disable/setchannel/removecooldown} {channel/user}`
             - Allows users to send only 1 message per 24 hours.
         - Counting: `[NYI]`
             - The same user can't count twice in a row, and anything besides the next number in the sequence is deleted.

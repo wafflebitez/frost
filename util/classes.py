@@ -1,5 +1,6 @@
-import json, os, time
 from discord import Member
+
+import json, os, time
 
 class Config:
 
@@ -55,9 +56,9 @@ class Server:
                     "server_id": self.server_id,
                     "prefix": data["prefix"],
                     "moderators": data["moderators"],
-                    "daily_message": DailyMessage(self, data["daily_message"]),
-                    "counting": Counting(self, data["counting"]),
-                    "suggestions": Suggestions(self, data["suggestions"]),
+                    "daily_message": DailyMessage(self, **data["daily_message"]),
+                    "counting": Counting(self, **data["counting"]),
+                    "suggestions": Suggestions(self, **data["suggestions"]),
                 }
                 return True
         return False
@@ -97,7 +98,7 @@ class Server:
 
 class DailyMessage:
 
-    def __init__(self, server, enabled: bool = False, channel_id: int = None, cooldowns: dict = {}):
+    def __init__(self, server, enabled: bool = False, channel_id: int = 0, cooldowns: dict = {}):
         self.server = server
         self.enabled = enabled
         self.channel_id = channel_id
@@ -110,6 +111,14 @@ class DailyMessage:
             "cooldowns": self.cooldowns
         }
 
+    def toggle(self, enabled: bool):
+        self.enabled = enabled
+        self.server.save()
+
+    def set_channel(self, channel_id: int):
+        self.channel_id = channel_id
+        self.server.save()
+
     def add_cooldown(self, user_id: int) -> bool:
         if user_id not in self.cooldowns or time.time() - self.cooldowns[user_id] >= 86400:
             self.cooldowns[user_id] = time.time()
@@ -120,6 +129,7 @@ class DailyMessage:
     def remove_cooldown(self, user_id: int) -> bool:
         if user_id in self.cooldowns:
             del self.cooldowns[user_id]
+            self.server.save()
             return True
         return False
 
@@ -144,9 +154,18 @@ class Counting:
             "blacklist": self.blacklist
         }
 
+    def toggle(self, enabled: bool):
+        self.enabled = enabled
+        self.server.save()
+
+    def set_channel(self, channel_id: int):
+        self.channel_id = channel_id
+        self.server.save()
+
     def add_blacklist(self, user_id: int) -> bool:
         if user_id not in self.blacklist:
             self.blacklist.append(user_id)
+            self.server.save()
             return True
         return False
 
@@ -168,6 +187,7 @@ class Counting:
             return "blacklisted"
         self.number = number
         self.last_user = user_id
+        self.server.save()
         return "success"
 
     
@@ -190,12 +210,14 @@ class Suggestions:
     def add_blacklist(self, user_id: int) -> bool:
         if user_id not in self.blacklist:
             self.blacklist.append(user_id)
+            self.server.save()
             return True
         return False
 
     def remove_blacklist(self, user_id: int) -> bool:
         if user_id in self.blacklist:
             self.blacklist.remove(user_id)
+            self.server.save()
             return True
         return False
 
@@ -208,4 +230,5 @@ class Suggestions:
             "suggestion": suggestion,
             "time": time.time()
         }
+        self.server.save()
         return True
