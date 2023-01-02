@@ -211,7 +211,7 @@ class Channels(commands.Cog):
             response.add_field(name="Enabled", value="Yes" if self.bot.servers[ctx.guild.id].suggestions.enabled else "No", inline=False)
             response.add_field(name="Channel", value=f"<#{self.bot.servers[ctx.guild.id].suggestions.channel_id}>" if self.bot.servers[ctx.guild.id].suggestions.channel_id else "None", inline=False)
             response.add_field(name="Submitted Suggestions", value=len(self.bot.servers[ctx.guild.id].suggestions.suggestions), inline=False)
-            response.add_field(name="Subcommands", value="`enable`, `disable`, `setchannel #channel` `blacklist @user`", inline=False)
+            response.add_field(name="Subcommands", value="`enable`, `disable`, `setchannel #channel`, `blacklist @user`", inline=False)
             return await ctx.send(embed=response)
 
         if subcommand == "enable":
