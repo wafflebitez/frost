@@ -75,6 +75,7 @@ class General(commands.Cog):
         return await ctx.send(embed=discord.Embed(title="Mod List", description=", ".join(named_list)), color=0x45B6FE)
 
         
+        
 
 async def setup(bot):
     await bot.add_cog(General(bot))

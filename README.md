@@ -11,14 +11,14 @@ It's pretty barebones at the moment. Don't expect too much.
 
 - Server:
     - Configurable prefix that overrules the global: `.prefix {new_prefix}`
-    - Configurable moderation roles (controls access to specific commands): `addmod @role/removemod {role}/.listmods`
+    - Configurable moderation roles (controls access to specific commands): `.addmod @role/.removemod {role}/.listmods`
     - Custom Channels!
         - Daily Message: `.dailymessage {enable/disable/setchannel #channel/removecooldown @user}`
             - Allows users to send only 1 message per 24 hours.
         - Counting: `.counting {enable/disable/setchannel #channel/setnumber 123/setuser @user/blacklist @user`
             - The same user can't count twice in a row, and anything besides the next number in the sequence is deleted.
             - Features a configurable blacklist for those pesky users
-        - Suggestions: `[NYI]`
+        - Suggestions: `.suggestions {enable/disable/setchannel #channel/blacklist @user}`
             - Enable users to submit suggestions for whatever.
             - Messages sent in this channel are immediately deleted and replaced by the bot for users to vote upon.
             - Also features a configurable blacklist

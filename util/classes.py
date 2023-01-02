@@ -214,6 +214,14 @@ class Suggestions:
             "suggestions": self.suggestions
         }
 
+    def toggle(self, enabled: bool):
+        self.enabled = enabled
+        self.server.save()
+
+    def set_channel(self, channel_id: int):
+        self.channel_id = channel_id
+        self.server.save()
+
     def add_blacklist(self, user_id: int) -> bool:
         if user_id not in self.blacklist:
             self.blacklist.append(user_id)
@@ -238,4 +246,4 @@ class Suggestions:
             "time": time.time()
         }
         self.server.save()
-        return True
+        return self.suggestions[suggestion_id]
