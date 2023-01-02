@@ -29,7 +29,7 @@ class General(commands.Cog):
     @commands.is_owner()
     async def status(self, ctx, *, new_status = None):
         if not new_status:
-            return await ctx.send(embed=discord.Embed(title="Status", description=f"The bot status is: `{self.bot.status}`", color=0x45B6FE))
+            return await ctx.send(embed=discord.Embed(title="Status", description=f"The bot status is currently: `{self.bot.status}`", color=0x45B6FE))
         await self.bot.update_status(new_status)        
         return await ctx.send(embed=discord.Embed(title="Status", description=f"The bot status has been updated to `{new_status}`", color=0x45B6FE))
 

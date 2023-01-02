@@ -3,7 +3,7 @@ from util import classes
 
 import discord, os
 
-
+# i really need more comments in this bih
 
 class Help(commands.HelpCommand):
 
@@ -54,9 +54,14 @@ class Frost(commands.Bot):
             if file.endswith(".py"):
                 await self.load_extension(f"cogs.{file[:-3]}")
                 print(f"[INFO] Loaded extension: {file[:-3]}")
+        for guild in self.guilds:
+            self.servers[guild.id] = classes.Server(self, guild.id)
         print(f"[INFO] Logged in as {self.user.name}#{self.user.discriminator}")
         await self.change_presence(activity=discord.Game(self.config.status))
         print(f"[INFO] Status set to: {self.config.status}")
+        
+    async def on_guild_join(self, guild):
+        self.servers[guild.id] = classes.Server(self, guild.id)
 
     async def update_status(self, status):
         self.config.set_status(status)

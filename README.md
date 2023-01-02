@@ -11,11 +11,11 @@ It's pretty barebones at the moment. Don't expect too much.
 
 - Server:
     - Configurable prefix that overrules the global: `.prefix {new_prefix}`
-    - Configurable moderation roles (controls access to specific commands): `.addmod {role} | .removemod {role} | .listmods`
+    - Configurable moderation roles (controls access to specific commands): `addmod @role/removemod {role}/.listmods`
     - Custom Channels!
-        - Daily Message: `.dailymessage {enable/disable/setchannel/removecooldown} {channel/user}`
+        - Daily Message: `.dailymessage {enable/disable/setchannel #channel/removecooldown @user}`
             - Allows users to send only 1 message per 24 hours.
-        - Counting: `[NYI]`
+        - Counting: `.counting {enable/disable/setchannel #channel/setnumber 123/setuser @user/blacklist @user`
             - The same user can't count twice in a row, and anything besides the next number in the sequence is deleted.
             - Features a configurable blacklist for those pesky users
         - Suggestions: `[NYI]`
@@ -40,9 +40,14 @@ To deploy this project, run
   py app.py
 ```
 
+Add the bot to your server using this URL, replacing `{YOUR_CLIENT_ID}` with your client ID
+```
+ https://discord.com/oauth2/authorize?client_id={YOUR_CLIENT_ID}&scope=bot&permissions=26688
+ ```
+
 
 ## Feedback
 
 If you have any feedback, please reach out to me on Discord: `wafflebitez#0001`
 
-I have no clue what I'm doing tbh pls help
+I have no clue what I'm doing tbh, please help

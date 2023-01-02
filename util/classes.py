@@ -30,7 +30,6 @@ class Config:
 
 
 
-
 class Server:
 
     def __init__(self, frost, server_id):
@@ -75,7 +74,7 @@ class Server:
             json.dump(dict, f, indent=4)
 
     def is_mod(self, member: Member) -> bool:
-        return member.guild_permissions.administrator or member.id in self.moderators
+        return member.guild_permissions.administrator or any(role.id in self.moderators for role in member.roles)
 
     def add_mod(self, role_id: int) -> bool:
         if role_id not in self.moderators:
@@ -120,15 +119,15 @@ class DailyMessage:
         self.server.save()
 
     def add_cooldown(self, user_id: int) -> bool:
-        if user_id not in self.cooldowns or time.time() - self.cooldowns[user_id] >= 86400:
-            self.cooldowns[user_id] = time.time()
+        if str(user_id) not in self.cooldowns or time.time() > self.cooldowns[str(user_id)]:
+            self.cooldowns[user_id] = time.time() + 86400
             self.server.save()
             return True
         return False
 
     def remove_cooldown(self, user_id: int) -> bool:
-        if user_id in self.cooldowns:
-            del self.cooldowns[user_id]
+        if str(user_id) in self.cooldowns:
+            del self.cooldowns[str(user_id)]
             self.server.save()
             return True
         return False
@@ -162,6 +161,14 @@ class Counting:
         self.channel_id = channel_id
         self.server.save()
 
+    def set_number(self, number: int):
+        self.number = number
+        self.server.save()
+
+    def set_last_user(self, user_id: int):
+        self.last_user = user_id
+        self.server.save()
+
     def add_blacklist(self, user_id: int) -> bool:
         if user_id not in self.blacklist:
             self.blacklist.append(user_id)
@@ -179,12 +186,12 @@ class Counting:
         return user_id in self.blacklist
 
     def increment(self, user_id: int, number: int) -> str:
+        if self.is_blacklisted(user_id):
+            return "blacklisted"
         if number != self.number + 1:
             return "wrong_number"
         if user_id == self.last_user:
             return "same_user"
-        if self.is_blacklisted(user_id):
-            return "blacklisted"
         self.number = number
         self.last_user = user_id
         self.server.save()
