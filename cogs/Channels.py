@@ -69,7 +69,7 @@ class Channels(commands.Cog):
 
     @commands.Cog.listener(name="on_message")
     async def on_daily_message(self, ctx):
-        if (not ctx.guild or ctx.author.bot or not self.bot.servers[ctx.guild.id].daily_message.enabled or ctx.channel.id != self.bot.servers[ctx.guild.id].daily_message.channel_id or ctx.content.startswith(self.bot.command_prefix)):
+        if (not ctx.guild or ctx.author.bot or not self.bot.servers[ctx.guild.id].daily_message.enabled or ctx.channel.id != self.bot.servers[ctx.guild.id].daily_message.channel_id or ctx.content.startswith(self.bot.servers[ctx.guild.id].prefix)):
             return
 
         if self.bot.servers[ctx.guild.id].daily_message.add_cooldown(ctx.author.id):
