@@ -74,6 +74,19 @@ class General(commands.Cog):
             named_list.append(f'**{role.name}**')
         return await ctx.send(embed=discord.Embed(title="Mod List", description=", ".join(named_list)), color=0x45B6FE)
 
+    @commands.command(aliases=['user'])
+    async def userinfo(self, ctx, user: discord.Member = None):
+        if user is None:
+            user = ctx.author
+        embed = discord.Embed(title=f"User Info", color=0x45B6FE)
+        embed.add_field(name="Username", value=user, inline=True)
+        embed.add_field(name="ID", value=user.id, inline=True)
+        embed.add_field(name="Account Created", value=user.created_at.strftime("%m/%d/%Y %H:%M:%S"), inline=False)
+        if ctx.guild:
+            embed.add_field(name="Joined Server", value=user.joined_at.strftime("%m/%d//%Y %H:%M:%S"), inline=False)
+        embed.set_thumbnail(url=user.avatar.url if user.avatar else user.default_avatar.url)
+        return await ctx.send(embed=embed)
+
         
         
 
