@@ -24,6 +24,7 @@ It's pretty barebones at the moment. Don't expect too much.
             - Also features a configurable blacklist
 - Global:
     - `ping`: View the bot's ping
+    - `userinfo`: Displays a user's username, user ID, account creation date, and server join date
 
 
 ## Installation
