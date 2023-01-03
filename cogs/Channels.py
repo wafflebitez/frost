@@ -277,6 +277,7 @@ class Channels(commands.Cog):
         embed = discord.Embed(title="New Suggestion", description=message, color=0x50C878)
         embed.add_field(name="Submitted By", value=ctx.author.mention)
         embed.set_footer(text=f"Suggestion #{len(self.bot.servers[ctx.guild.id].suggestions.suggestions)}")
+        await ctx.delete()
         message = await ctx.channel.send(embed=embed)
         await message.add_reaction("✅")
         await message.add_reaction("❌")
