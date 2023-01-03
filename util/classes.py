@@ -211,6 +211,7 @@ class Suggestions:
         return {
             "enabled": self.enabled,
             "channel_id": self.channel_id,
+            "blacklist": self.blacklist,
             "suggestions": self.suggestions
         }
 
