@@ -36,7 +36,7 @@ class General(commands.Cog):
     @commands.command(help="Add a role to the list of server mods.\n\nUsage: `addmod @role`")
     @commands.guild_only()
     async def addmod(self, ctx, role: discord.Role = None):
-        if not self.bot.servers[ctx.guild.id].is_mod(ctx.author):
+        if not ctx.author.guild_permissions.administrator:
             return await ctx.send(embed=discord.Embed(title="Error", description="You do not have permission to use this command", color=0xDC143C))
         if role is None:
             return await ctx.send(embed=discord.Embed(title="Error", description="You must specify a role!", color=0xDC143C))
@@ -48,7 +48,7 @@ class General(commands.Cog):
     @commands.command(aliases=['delmod', 'deletemod'], help="Remove a role from the list of server mods.\n\nUsage: `removemod @role`")
     @commands.guild_only()
     async def removemod(self, ctx, role: discord.Role = None):
-        if not self.bot.servers[ctx.guild.id].is_mod(ctx.author):
+        if not ctx.author.guild_permissions.administrator:
             return await ctx.send(embed=discord.Embed(title="Error", description="You do not have permission to use this command", color=0xDC143C))
         if role is None:
             return await ctx.send(embed=discord.Embed(title="Error", description="You must specify a role!", color=0xDC143C))
@@ -72,7 +72,7 @@ class General(commands.Cog):
                 self.bot.servers[ctx.guild.id].remove_mod(role_id)
                 continue
             named_list.append(f'**{role.name}**')
-        return await ctx.send(embed=discord.Embed(title="Mod List", description=", ".join(named_list)), color=0x45B6FE)
+        return await ctx.send(embed=discord.Embed(title="Mod List", description=", ".join(named_list), color=0x45B6FE))
 
     @commands.command(aliases=['user'])
     async def userinfo(self, ctx, user: discord.Member = None):
