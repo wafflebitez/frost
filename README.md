@@ -49,6 +49,6 @@ Add the bot to your server using this URL, replacing `{YOUR_CLIENT_ID}` with you
 
 ## Feedback
 
-If you have any feedback, please reach out to me on Discord: `wafflebitez#0001`
+If you have any feedback, please reach out to us on [our Discord](https://discord.gg/PtexjU6vAW) or directly: `wafflebitez#0001` 
 
 I have no clue what I'm doing tbh, please help
