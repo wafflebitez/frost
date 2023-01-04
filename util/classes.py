@@ -102,6 +102,12 @@ class DailyMessage:
         self.enabled = enabled
         self.channel_id = channel_id
         self.cooldowns = cooldowns
+        for key, value in self.cooldowns.copy().items():
+            if not isinstance(key, str):
+                continue
+            self.cooldowns[int(key)] = value
+            del self.cooldowns[key]
+
 
     def to_dict(self):
         return {
@@ -119,15 +125,15 @@ class DailyMessage:
         self.server.save()
 
     def add_cooldown(self, user_id: int) -> bool:
-        if str(user_id) not in self.cooldowns or time.time() > self.cooldowns[str(user_id)]:
+        if user_id not in self.cooldowns or time.time() > self.cooldowns[user_id]:
             self.cooldowns[user_id] = time.time() + 86400
             self.server.save()
             return True
         return False
 
     def remove_cooldown(self, user_id: int) -> bool:
-        if str(user_id) in self.cooldowns:
-            del self.cooldowns[str(user_id)]
+        if user_id in self.cooldowns:
+            del self.cooldowns[user_id]
             self.server.save()
             return True
         return False
