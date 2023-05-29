@@ -95,8 +95,10 @@ class Channels(commands.Cog):
                 embed.add_field(name="Channel", value=f"<#{self.bot.servers[ctx.guild.id].counting.channel_id}>" if self.bot.servers[ctx.guild.id].counting.channel_id else "None", inline=False)
                 embed.add_field(name="Number", value=self.bot.servers[ctx.guild.id].counting.number)
                 embed.add_field(name="User", value=f"<@{self.bot.servers[ctx.guild.id].counting.last_user}>" if self.bot.servers[ctx.guild.id].counting.last_user != 0 else "None")
-                embed.add_field(name="Blacklisted Users", value=f'<@{" @".join([str(u) for u in self.bot.servers[ctx.guild.id].counting.blacklist])}>' if self.bot.servers[ctx.guild.id].counting.blacklist else "None", inline=False)
-                embed.add_field(name="Subcommands", value="`enable`, `disable`, `setchannel #channel`, `setuser @user`, `setnumber <number>`, `blacklist <add/remove> @user`", inline=False)
+                blacklisted_users = self.bot.servers[ctx.guild.id].counting.blacklist
+                formatted_users = '\n'.join([f'<@{user}>' for user in blacklisted_users]) if blacklisted_users else "None"
+                embed.add_field(name="Blacklisted Users", value=formatted_users, inline=False)
+                embed.add_field(name="Subcommands", value="`enable`, `disable`, `setchannel #channel`, `setuser @user`, `setnumber <number>`, `blacklist @user`", inline=False)
                 return await ctx.send(embed=embed)
     
             subcommand = subcommand.lower()
@@ -166,8 +168,8 @@ class Channels(commands.Cog):
                 if user:
                     if self.bot.servers[ctx.guild.id].counting.add_blacklist(user.id):
                         return await ctx.send(embed=discord.Embed(title="Counting", description="User blacklisted.", color=0x50C878))
+                    self.bot.servers[ctx.guild.id].counting.remove_blacklist(user.id)
                     return await ctx.send(embed=discord.Embed(title="Counting", description="User unblacklisted.", color=0x50C878))
-                
                 return await ctx.send(embed=discord.Embed(title="Counting", description="Invalid user.", color=0xDC143C))
 
             embed = discord.Embed(title="Counting", description="Invalid subcommand.", color=0xDC143C)

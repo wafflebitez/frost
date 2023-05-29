@@ -185,6 +185,7 @@ class Counting:
     def remove_blacklist(self, user_id: int) -> bool:
         if user_id in self.blacklist:
             self.blacklist.remove(user_id)
+            self.server.save()
             return True
         return False
 
